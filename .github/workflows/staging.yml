@@ -1,0 +1,59 @@
+name: Staging Deployment
+
+on:
+  push:
+    branches:
+      - staging  # Deploy when code is pushed to the staging branch
+
+jobs:
+  deploy-to-server:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set Up SSH and Deploy to Staging Server
+        run: |
+          echo "🔧 Setting up SSH and deploying to staging server..."
+
+          # Create the .ssh directory
+          mkdir -p ~/.ssh
+
+          # Save the SSH private key
+          printf "%s\n" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa  # Set correct permissions
+
+          # Add server to known hosts (to prevent SSH prompt)
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts 2>/dev/null
+
+          # Debug: Check SSH connection
+          echo "🚀 Testing SSH connection..."
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SERVER_IP }} "echo 'SSH Connection Successful'"
+
+          # Deploy the latest staging code
+          echo "📦 Deploying the latest staging code..."
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SERVER_IP }} << EOF
+            echo "🔧 Navigating to project directory..."
+            cd /home/developer/mindfulstage
+
+            echo "🔑 Configuring Git..."
+            git config --global --add safe.directory /home/developer/mindfulstage
+            git config --global credential.helper store
+
+            # Update Git URL to use the token for authentication
+            git remote set-url origin https://x-access-token:${{ secrets.DEPLOY_PAT }}@github.com/walkwel-technology/mindful-backend.git
+
+            echo "📥 Pulling latest changes from staging branch..."
+            git pull origin staging  
+
+            echo "🛠️ Restarting Docker services..."
+            docker compose -f docker-compose.stage.yaml down -v
+ 
+            docker compose -f docker-compose.stage.yaml up --build -d
+
+            echo "🧹 Cleaning up unused Docker resources..."
+            docker system prune -af
+
+            echo "✅ Deployment to staging completed!"
+          EOF

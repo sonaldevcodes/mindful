@@ -1,0 +1,9 @@
+const TITLE_FOR_MATCH_NOTIFICATION = 'It’s a match!'
+const TITLE_FOR_PROFILE_FAVOURITED = 'Profile favorited'
+const TITLE_FOR_ACTIVITY_STARTED = "Activity Started"
+const TITLE_FOR_ACTIVITY_END = "Activity Ended"
+
+
+
+// Export the title variable
+export { TITLE_FOR_MATCH_NOTIFICATION, TITLE_FOR_PROFILE_FAVOURITED, TITLE_FOR_ACTIVITY_STARTED, TITLE_FOR_ACTIVITY_END };

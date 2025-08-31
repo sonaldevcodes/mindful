@@ -9,6 +9,7 @@ set -e
 # Check if database exists (optional)
 # You might need to install psql client in your container for this
 
+npm run migration:generate
 npm run migration:run
 #npm run seed:run:relational
 npm run start:prod

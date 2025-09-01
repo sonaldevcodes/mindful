@@ -42,7 +42,7 @@ jobs:
             git config --global credential.helper store
 
             # Update Git URL to use the token for authentication
-            git remote set-url origin https://x-access-token:${{ secrets.DEPLOY_PAT }}@github.com/walkwel-technology/mindful-backend.git
+            git remote set-url origin https://x-access-token:${{ secrets.DEPLOY_PAT }}@github.com/sonaldevcodes/mindful.git
 
             echo "📥 Pulling latest changes from staging branch..."
             git pull origin staging  

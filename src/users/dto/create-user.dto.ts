@@ -290,7 +290,7 @@ export class CreateUserDto {
   @ApiProperty({
     description: 'The sexual identity of the user',
     enum: SexualIdentity,
-    example: 'lesbian',
+    example: 'sapphic',
   })
   @IsOptional()
   @IsEnum(SexualIdentity)

@@ -8,12 +8,12 @@ export class QuestionSeed {
 
     const questions = [
       {
-        text: 'What role does spirituality play in your relationships?',
+        text: 'How important is spirituality in your relationships?',
         type: QuestionType.TEXT,
         options: '',
       },
       {
-        text: 'How do you incorporate spirituality into your daily life?',
+        text: 'In what ways (if any) do you bring spirituality or mindfulness into your daily life?',
         type: QuestionType.TEXT,
         options: '',
       },

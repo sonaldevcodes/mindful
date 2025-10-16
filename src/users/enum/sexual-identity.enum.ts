@@ -1,5 +1,5 @@
 export enum SexualIdentity {
-  LESBIAN = 'Lesbian',
+  LESBIAN = 'Sapphic',
   GAY = 'Gay',
   BISEXUAL = 'Bisexual',
   PANSEXUAL = 'Pansexual',
